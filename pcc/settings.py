@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'pcc.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DATABASE_NAME', 'postgres'),
-        'USER': os.getenv('DATABASE_USER', 'postgres'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_ADDR', 'db_1'),
-        'PORT': os.getenv('DATABASE_PORT', '5432'),
+        'NAME': 'cafpcc',
+        'USER': 'julietalabs',
+        'PASSWORD': 'Warioguti21',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
