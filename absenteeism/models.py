@@ -1,4 +1,6 @@
 from django.db import models
+from absenteeism.signals import send_record
+from django.db.models.signals import post_save
 
 # Create your models here.
 class Diagnosis(models.Model):
@@ -12,7 +14,7 @@ class Disease(models.Model):
     description = models.TextField(max_length=600)
     diagnosis = models.ForeignKey(Diagnosis,null=False)
     def __unicode__(self):
-        return u'<Disease: %s (diagnosis: %S)>'%(self.name,self.diagnosis.name)
+        return u'<Enf: %s (Dx: %s)>'%(self.name,self.diagnosis.name)
 
 class Area(models.Model):
     name = models.CharField(max_length=200,unique=True)
@@ -32,11 +34,12 @@ class Employee(models.Model):
     age = models.CharField(max_length=2)
     organization = models.ForeignKey(Organization)
     def __unicode__(self):
-        return u'Nombre: %s  Apellido: %s'%(self.name,self,last_name)
+        return u'Nombre: %s -  Apellido: %s'%(self.name,self.last_name)
 
 class Record(models.Model):
     employee = models.ForeignKey(Employee,null=False)
     date = models.DateTimeField()
     disease = models.ForeignKey(Disease,null=False)
     def __unicode__(self):
-        return u'N: %s E: %s'%(self.employee.name,self.disease.name)
+        return u'Nombre: %s Dx: %s'%(self.employee.name,self.disease.diagnosis.name)
+post_save.connect(send_record, sender=Record)
