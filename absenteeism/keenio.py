@@ -8,7 +8,3 @@ def get_keen_client():
         read_key = os.getenv('KEEN_READ_KEY'),
         master_key = os.getenv('KEEN_MASTER_KEY')
     )
-
-def send_to_collection(collection, data):
-    client = get_keen_client()
-    client.add_event(collection,data)

@@ -1,14 +1,15 @@
 from django.db.models.signals import post_save
-from absenteeism.keenio import *
+from absenteeism.keenio import get_keen_client
 
 def send_record(sender, instance, created, **kwargs):
-    """ Send the data and the collection name to keen methods
+    """ Send the event collected data through the keen client
 
     If is a new object, the data will send to keen as a new record.
     If the object is already created, the data will be send to keen as an update
     """
     if created:
-        send_to_collection("absenteeism_records",
+        client = get_keen_client()
+        client.add_event("absenteeism_records",
                         {"pk":instance.pk,
                          "employee":{
                              "name":instance.employee.name,

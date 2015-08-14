@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 class Diagnosis(models.Model):
+    """ A model to represent a diagnosis given by the doctor
+    """
     name = models.CharField(max_length=200,unique=True)
     description = models.TextField(max_length=600)
     def __unicode__(self):
@@ -17,6 +19,8 @@ class Disease(models.Model):
         return u'<Enf: %s (Dx: %s)>'%(self.name,self.diagnosis.name)
 
 class Area(models.Model):
+    """ A model to represent a department area inside the company
+    """
     name = models.CharField(max_length=200,unique=True)
     def __unicode__(self):
         return self.name
@@ -28,6 +32,9 @@ class Organization(models.Model):
         return self.name
 
 class Employee(models.Model):
+    """ A model to represent an employee. There is not employee
+    authentication, is just a profile.
+    """
     personal_number = models.CharField(max_length=12)
     name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=25)
@@ -37,6 +44,10 @@ class Employee(models.Model):
         return u'Nombre: %s -  Apellido: %s'%(self.name,self.last_name)
 
 class Record(models.Model):
+    """ A model to represent a normal record when a employee go 
+    to the physical condiotioning centre. The doctor gives diagnosis 
+    according to the disease.
+    """
     employee = models.ForeignKey(Employee,null=False)
     date = models.DateTimeField()
     disease = models.ForeignKey(Disease,null=False)
