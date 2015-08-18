@@ -9,4 +9,8 @@ admin.site.register(Disease)
 admin.site.register(Area)
 admin.site.register(Organization)
 admin.site.register(Employee)
-admin.site.register(Record)
+
+class RecordAdmin(admin.ModelAdmin):
+    search_fields = ["employee"]
+
+admin.site.register(Record,RecordAdmin)
