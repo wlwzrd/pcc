@@ -43,6 +43,14 @@ class Employee(models.Model):
     def __unicode__(self):
         return u'Nombre: %s -  Apellido: %s'%(self.name,self.last_name)
 
+class DiagnosisType(models.Model):
+    """
+    """
+    TYPES = (('AT','Accidente de Trabajo'),('EC','Enfermedad Cronica'))
+    name = models.CharField(max_length=2, choices=TYPES)
+    def __unicode__(self):
+        return self.name
+
 class Record(models.Model):
     """ A model to represent a normal record when a employee go 
     to the physical condiotioning centre. The doctor gives diagnosis 
@@ -51,6 +59,7 @@ class Record(models.Model):
     employee = models.ForeignKey(Employee,null=False)
     date = models.DateTimeField()
     disease = models.ForeignKey(Disease,null=False)
+    diagnosis_type = models.ForeignKey(DiagnosisType, null=True, default=None)
     def __unicode__(self):
         return u'Nombre: %s Dx: %s'%(self.employee.name,self.disease.diagnosis.name)
 post_save.connect(send_record, sender=Record)
