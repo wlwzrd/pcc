@@ -26,6 +26,8 @@ class Area(models.Model):
         return self.name
 
 class Organization(models.Model):
+    """ Represents a department inside the company
+    """
     name = models.CharField(max_length=200)
     area = models.ForeignKey(Area,null=False)
     def __unicode__(self):
@@ -44,7 +46,7 @@ class Employee(models.Model):
         return u'Nombre: %s -  Apellido: %s'%(self.name,self.last_name)
 
 class DiagnosisType(models.Model):
-    """
+    """ Should be calculate after some criteria define by the physiotherapist.
     """
     TYPES = (('AT','Accidente de Trabajo'),('EC','Enfermedad Cronica'))
     name = models.CharField(max_length=2, choices=TYPES)
@@ -62,4 +64,6 @@ class Record(models.Model):
     diagnosis_type = models.ForeignKey(DiagnosisType, null=True, default=None)
     def __unicode__(self):
         return u'Nombre: %s Dx: %s'%(self.employee.name,self.disease.diagnosis.name)
+
+# This signal will call the function to send data to keen
 post_save.connect(send_record, sender=Record)
